@@ -1,5 +1,7 @@
 # Flask project
 
+## Set up the python virtual environment
+
 1 Install venv:
 
     $ apt-get install python3-venv
@@ -12,18 +14,28 @@
 
     $ . venv/bin/activate
 
-4 Install flask
+## Install manually flask and some others dependencies
+
+1 Install flask manually
 
     $ pip install Flask
 
-5 Export Flask variable
-
-    $ export FLASK_APP=application.py
-
-6  Install and run flask
-
-    $ flask run
-
-7 Install Requirements
+2 or install directly all requirements declared in requirements.txt
 
     $ pip install -r requirements.txt
+
+## For run flask there are some options:
+
+1 one by one
+
+    $ export FLASK_APP=main.py
+    $ export FLASK_ENV=development
+    $ flask run
+
+1 one line
+
+    $ FLASK_APP=main.py FLASK_ENV=development flask run
+
+3 for more options
+
+    $ flask run --help
