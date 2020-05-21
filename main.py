@@ -10,15 +10,15 @@ UrlRFIDtoCompleteTheDiscount = 'http://127.0.0.1:8001/discountBalance'
 app = Flask(__name__)
 
 def processToBilling(dataOfTheTag):
-	time.sleep(7)
+	time.sleep(5)
 
 	#TODO bank process the tag and the plate here and make the response
 	
 
 	request = requests.post(UrlRFIDtoCompleteTheDiscount, json={
 		"msg":"payment accepted", 
-		"plate":dataOfTheTag['tag'],
-		"epc":dataOfTheTag['plate']}
+		"plate":dataOfTheTag['plate'],
+		"epc":dataOfTheTag['tag']}
 	)
 	objResponseJson = request.json()
 	print(objResponseJson)
@@ -31,23 +31,20 @@ def hello_world():
 def routepost():    
 	data = request.get_json()
 	print(data)
-	return {'msg':'esta ruta está funcionando correctamente'}
-
-
-
-	
+	return {'msg':'this route is only for testing'}
 
 @app.route('/billing', methods = ['POST'])
 def billing():
 
-	#try:
-	dictResponse = request.get_json()
-	plate = dictResponse['plate']
-	thread = threading.Thread(target=processToBilling, args=(dictResponse,))
-	thread.start()
-	print('start thread')
-	#except:.
-	#	return {'msg':'hubo un problema manejando la repuesta del lado del servidor'}
-
-	return {'msg':'El procesos de cobro se ha inicializado para la placa vehicular #'+plate}	
+	try:
+		dictData = request.get_json()
+		tag = dictData['tag']
+		thread = threading.Thread(target=processToBilling, args=(dictData,))
+		thread.start()
+		print('start thread')
+	except:
+		return {'msg':'internal server error'}
+	responseToSend = {'msg':'the proccess of billing has started in tag: '+tag}
+	print('flask has sent this',responseToSend)
+	return 	responseToSend
 
